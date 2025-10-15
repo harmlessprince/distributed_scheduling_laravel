@@ -1,7 +1,6 @@
 <?php
 
-use App\Console\Commands\SendDailyReport;
-use App\Console\Tasks\TestTask;
+use App\Jobs\TestJob;
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::call(new TestTask)->daily();
+Schedule::call(new TestJob)->daily();
