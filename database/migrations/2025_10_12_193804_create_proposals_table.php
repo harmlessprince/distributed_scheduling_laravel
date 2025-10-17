@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('proposals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('card_id')->nullable()->constrained('cards');
+            $table->string('status');
             $table->timestamps();
         });
     }

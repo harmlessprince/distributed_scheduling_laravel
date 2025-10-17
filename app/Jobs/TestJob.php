@@ -8,19 +8,15 @@ use Illuminate\Foundation\Queue\Queueable;
 class TestJob
 {
 
-    /**
-     * Create a new job instance.
-     */
+    // Create a new job instance.
     public function __construct()
     {
         //
     }
 
-    /**
-     * Execute the job.
-     */
+    //Execute the job.
     public function __invoke(): void
     {
-        //
+
     }
 }
