@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\Log;
 
 class ProposalService
 {
-    public function findAllByStatusOrderByCreatedAtAsc($status)
+    public function findAllByStatusOrderByCreatedAtAsc($status, $limit)
     {
-         $proposals = Proposal::query()->where('status', '=', $status)
-            ->orderBy('created_at', 'asc');
-         return $proposals->get();
+        $proposals = Proposal::query()->where('status', '=', $status)
+            ->orderBy('created_at', 'asc')
+            ->limit($limit);
+        return $proposals->get();
     }
 }
+
+
+
