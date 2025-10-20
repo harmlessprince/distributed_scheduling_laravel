@@ -14,17 +14,23 @@ class AttachCardsToProposalJob
         private CardClientService $cardClientService,
         private CardService       $cardService,
         private ProposalService   $proposalService,
-    ){}
+    )
+    {
+    }
 
 
     public function __invoke(): void
     {
+        $pending =  true;
 
-        DB::transaction(function () {
-            while (true){
+        while ($pending) {
+
+           $pending = DB::transaction(function () {
+
                 $proposals = $this->proposalService->findAllByStatusOrderByCreatedAtAsc(status: 'ELIGIBLE', limit: 50);
-                if ($proposals->isEmpty()){
-                    break;
+
+                if ($proposals->isEmpty()) {
+                    return false;
                 }
                 $proposals->each(function (Proposal $proposal) {
 
@@ -38,10 +44,16 @@ class AttachCardsToProposalJob
                     ]);
 
                 });
-            }
+                return true;
+            });
+        }
 
-        });
 
+    }
+
+    public function isLeader()
+    {
+        return false;
     }
 
 }
