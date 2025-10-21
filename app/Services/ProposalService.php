@@ -11,6 +11,7 @@ class ProposalService
     {
         $proposals = Proposal::query()->where('status', '=', $status)
             ->orderBy('created_at', 'asc')
+            ->lockForUpdate()
             ->limit($limit);
         return $proposals->get();
     }
