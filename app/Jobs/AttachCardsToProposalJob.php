@@ -22,29 +22,25 @@ class AttachCardsToProposalJob
     public function __invoke(): void
     {
         $pending =  true;
-
         while ($pending) {
 
            $pending = DB::transaction(function () {
 
                 $proposals = $this->proposalService->findAllByStatusOrderByCreatedAtAsc(status: 'ELIGIBLE', limit: 50);
-
                 if ($proposals->isEmpty()) {
                     return false;
                 }
                 $proposals->each(function (Proposal $proposal) {
 
                     $cardData = $this->cardClientService->findCardsByProposalId(proposalId: $proposal->id);
-
                     $newCard = $this->cardService->createCard($cardData);
-
                     $proposal->update([
                         'status' => 'ELIGIBLE_WITH_ATTACHED_CARD',
                         'card_id' => $newCard->id,
                     ]);
 
                 });
-                return true;
+                return false;
             });
         }
 
