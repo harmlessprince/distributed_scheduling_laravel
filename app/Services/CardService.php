@@ -16,4 +16,9 @@ class CardService
         $newCard->expiry_date = $cardData->expiry_date;
         return $newCard->save();
     }
+
+    public function createCards($cardsToInsert)
+    {
+        DB::table('cards')->insert($cardsToInsert);
+    }
 }
